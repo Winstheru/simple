@@ -1,7 +1,7 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert'; //agar bisa memakai json.decode
-import 'MenuGrid.dart'; //agar bisa memakai Custom Widget Grid
+import 'MenuGrid.dart';
+import 'WebView.dart'; //agar bisa memakai Custom Widget Grid
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -16,9 +16,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("HOME"),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.web),
+                onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return WebViewPage();
+                    })))
+          ],
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: FutureBuilder(
               future: DefaultAssetBundle.of(context)
                   .loadString("assets/simple.json"),
