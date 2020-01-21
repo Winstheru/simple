@@ -32,8 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
               future: DefaultAssetBundle.of(context)
                   .loadString("assets/simple.json"),
               builder: (context, snapshot) {
-                // var user = json.decode(snapshot.data.toString());
-                var user = jsonDecode(snapshot.data.toString());
+                var user = json.decode(snapshot.data.toString());
                 return GridView.builder(
                   itemBuilder: (BuildContext context, int index) {
                     return SingleMenuGrid(
