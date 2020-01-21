@@ -102,7 +102,6 @@ class _LoginFormState extends State<LoginForm> {
                                 }
                               },
                               onSaved: (value) => _username = value,
-                              autofocus: true,
                             ),
                           )
                         ],
