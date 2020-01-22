@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert'; //agar bisa memakai json.decode
 import 'MenuGrid.dart';
 import 'WebView.dart'; //agar bisa memakai Custom Widget Grid
@@ -22,7 +23,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () => Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return WebViewPage();
-                    })))
+                    }))),
+                    IconButton(
+                      icon: Icon(Icons.list),
+                      onPressed: () => Navigator.pushNamed(context, 'userlist'),
+                    ),
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.doorOpen),
+                      onPressed: () => Navigator.pushNamed(context, 'login'),
+                    ),
           ],
         ),
         body: Container(

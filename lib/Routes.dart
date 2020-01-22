@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple/EmployeeList.dart';
 import 'package:simple/RegisterForm.dart';
 import 'Home.dart';
 import 'LoginForm.dart';
@@ -13,6 +14,7 @@ class Routes extends StatelessWidget {
         'home' : (BuildContext context) => MyHomePage(),
         'register' : (BuildContext context) => RegisterForm(),
         'login' : (BuildContext context) => LoginForm(),
+        'userlist' : (BuildContext context) => MyEmployeeList(),
       },
     );
   }

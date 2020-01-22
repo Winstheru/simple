@@ -1,6 +1,8 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:simple/Employee.dart';
+import 'package:simple/database/dbhelper.dart';
 
 import 'ContainerWH.dart';
 
@@ -13,6 +15,12 @@ class _RegisterFormState extends State<RegisterForm> {
   String _username = "";
   String _password = "";
   String _kota = "";
+
+  Employee employee = new Employee("", "", "", "");
+  String firstname;
+  String lastname;
+  String emailId;
+  String mobileNo;
 
   bool hide = true;
   Icon icon1 = Icon(
@@ -36,6 +44,10 @@ class _RegisterFormState extends State<RegisterForm> {
       form.validate();
       if (form.validate()) {
         form.save();
+
+        var employee = Employee(firstname, lastname, mobileNo, emailId);
+        var dbHelper = DBHelper();
+        dbHelper.saveEmployee(employee);
         Flushbar(
           icon: Icon(
             Icons.info_outline,
@@ -75,71 +87,139 @@ class _RegisterFormState extends State<RegisterForm> {
                       TextFormField(
                         decoration: InputDecoration(
                             prefixIcon: Icon(
-                              Icons.lock,
+                              Icons.person,
                               color: Colors.green,
                             ),
-                            labelText: "Username",
+                            labelText: "First Name",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Masukkan username";
-                          }
-                        },
-                        onSaved: (value) => _username = value,
+                        validator: (value) =>
+                            value.length == 0 ? "Enter First Name" : null,
+                        onSaved: (value) => this.firstname = value,
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       TextFormField(
-                        obscureText:
-                            hide, //obscureText jika bernilai TRUE akan menutup password yang diketik
                         decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              icon: hide ? icon1 : icon2,
-                              onPressed: () {
-                                setState(() {
-                                  hide =
-                                      !hide; //jika icon mata ditekan maka show text password
-                                });
-                              },
+                            prefixIcon: Icon(
+                              Icons.person_outline,
+                              color: Colors.green,
                             ),
-                            labelText: "Password",
-                            hintText: "Masukkan password",
+                            labelText: "Last Name",
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        onSaved: (value) => _password = value,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Masukkan password terlebih dahulu";
-                          }
-                        },
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                        validator: (value) =>
+                            value.length == 0 ? "Enter Last Name" : null,
+                        onSaved: (value) => this.lastname = value,
                       ),
-                      Container(
-                          margin: EdgeInsets.only(top: 16),
-                          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.green, width: 2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.blue),
-                              items: choices
-                                  .map((value) => DropdownMenuItem(
-                                        child: Text(value),
-                                        value: value,
-                                      ))
-                                  .toList(),
-                              hint: Text(_kota, style: TextStyle(fontSize: 18)),
-                              onChanged: (String value) {
-                                setState(() {
-                                  _kota = value;
-                                });
-                              },
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              FontAwesomeIcons.mobileAlt,
+                              color: Colors.green,
                             ),
-                          )),
+                            labelText: "Mobile Number",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                        validator: (value) =>
+                            value.length == 0 ? "Enter Mobile Number" : null,
+                        onSaved: (value) => this.mobileNo = value,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: Colors.green,
+                            ),
+                            labelText: "Email Address",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                        validator: (value) =>
+                            value.length == 0 ? "Enter Email Address" : null,
+                        onSaved: (value) => this.emailId = value,
+                      ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //       prefixIcon: Icon(
+                      //         Icons.lock,
+                      //         color: Colors.green,
+                      //       ),
+                      //       labelText: "Username",
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       )),
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return "Masukkan username";
+                      //     }
+                      //   },
+                      //   onSaved: (value) => _username = value,
+                      // ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
+                      // TextFormField(
+                      //   obscureText:
+                      //       hide, //obscureText jika bernilai TRUE akan menutup password yang diketik
+                      //   decoration: InputDecoration(
+                      //       suffixIcon: IconButton(
+                      //         icon: hide ? icon1 : icon2,
+                      //         onPressed: () {
+                      //           setState(() {
+                      //             hide =
+                      //                 !hide; //jika icon mata ditekan maka show text password
+                      //           });
+                      //         },
+                      //       ),
+                      //       labelText: "Password",
+                      //       hintText: "Masukkan password",
+                      //       border: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10))),
+                      //   onSaved: (value) => _password = value,
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return "Masukkan password terlebih dahulu";
+                      //     }
+                      //   },
+                      // ),
+                      // Container(
+                      //     margin: EdgeInsets.only(top: 16),
+                      //     padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      //     decoration: BoxDecoration(
+                      //         border: Border.all(color: Colors.green, width: 2),
+                      //         borderRadius: BorderRadius.circular(10)),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         style:
+                      //             TextStyle(fontSize: 18, color: Colors.blue),
+                      //         items: choices
+                      //             .map((value) => DropdownMenuItem(
+                      //                   child: Text(value),
+                      //                   value: value,
+                      //                 ))
+                      //             .toList(),
+                      //         hint: Text(_kota, style: TextStyle(fontSize: 18)),
+                      //         onChanged: (String value) {
+                      //           setState(() {
+                      //             _kota = value;
+                      //           });
+                      //         },
+                      //       ),
+                      //     )),
                       Padding(
                         padding: const EdgeInsets.only(top: 24.0),
                         child: FlatButton(
