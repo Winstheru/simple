@@ -59,14 +59,6 @@ class DBHelper {
     return users;
   }
 
-
-  // =======
-  // Future<int> saveUser(User user) async {
-  //   var dbClient = await con.db;
-  //   int res = await dbClient.insert("User", user.toMap());
-  //   return res;
-  // }
-
   Future<User> goLogin(String user, String password) async {
     var dbClient = await db;
     var res = await dbClient.rawQuery("SELECT * FROM User WHERE username = '$user' and password = '$password'");
