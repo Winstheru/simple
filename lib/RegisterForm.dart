@@ -14,7 +14,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   // String _username = "";
   // String _password = "";
-  String _kota = "";
+  String _city = "";
 
   User user = new User("", "", "", "");
   String username;
@@ -35,7 +35,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  final List<String> choices = ["Medan", "Jakarta", "Bandung"];
+  String _choosenCity;
+  final List<String> kota = ["Medan", "Jakarta", "Bandung"];
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +60,18 @@ class _RegisterFormState extends State<RegisterForm> {
           backgroundColor: Colors.green,
           duration: Duration(seconds: 3),
         )..show(context);
-        // Future.delayed(Duration(seconds: 2), () {
-        //   Navigator.pushNamed(context, 'login');
-        // });
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.pushNamed(context, 'login');
+        });
       } else {
-        print("data belum terisi");
+        print("data belum terisi semua");
       }
     }
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("REGISTER"),
+        title: Text("REGISTER USER"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -134,20 +135,6 @@ class _RegisterFormState extends State<RegisterForm> {
                       SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.green,
-                            ),
-                            labelText: "Email Address",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                        validator: (value) =>
-                            value.length == 0 ? "Enter Email Address" : null,
-                        onSaved: (value) => this.emailId = value,
-                      ),
                       // SizedBox(
                       //   height: 20,
                       // ),
@@ -195,30 +182,30 @@ class _RegisterFormState extends State<RegisterForm> {
                       //     }
                       //   },
                       // ),
-                      // Container(
-                      //     margin: EdgeInsets.only(top: 16),
-                      //     padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(color: Colors.green, width: 2),
-                      //         borderRadius: BorderRadius.circular(10)),
-                      //     child: DropdownButtonHideUnderline(
-                      //       child: DropdownButton(
-                      //         style:
-                      //             TextStyle(fontSize: 18, color: Colors.blue),
-                      //         items: choices
-                      //             .map((value) => DropdownMenuItem(
-                      //                   child: Text(value),
-                      //                   value: value,
-                      //                 ))
-                      //             .toList(),
-                      //         hint: Text(_kota, style: TextStyle(fontSize: 18)),
-                      //         onChanged: (String value) {
-                      //           setState(() {
-                      //             _kota = value;
-                      //           });
-                      //         },
-                      //       ),
-                      //     )),
+                      Container(
+                          margin: EdgeInsets.only(top: 16),
+                          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green, width: 2),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.blue),
+                              items: kota.map((value) => DropdownMenuItem(
+                                        child: Text(value),
+                                        value: value,
+                                      ))
+                                  .toList(),
+                              hint: Text(_city, style: TextStyle(fontSize: 18)),
+                              onChanged: (String value) {
+                                setState(() {
+                                  _choosenCity = value;
+                                });
+                              },
+                              value: _city == null ? null : this.emailId = _choosenCity,
+                            ),
+                          )),
                       Padding(
                         padding: const EdgeInsets.only(top: 24.0),
                         child: FlatButton(

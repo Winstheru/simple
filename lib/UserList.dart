@@ -31,6 +31,7 @@ class _UserListState extends State<UserList> {
                   return Column(children: <Widget>[
                     Text(snapshot.data[index].username),
                     Text(snapshot.data[index].password),
+                    Text(snapshot.data[index].emailId),
                     // Text(snapshot.data[index].city),
                     Divider(thickness: 2,),
                   ],);
