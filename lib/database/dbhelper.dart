@@ -24,7 +24,7 @@ class DBHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE IF NOT EXISTS User(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mobileno TEXT, emailId TEXT)");
+        "CREATE TABLE IF NOT EXISTS User(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, emailId TEXT)");
     print("Created tables");
   }
 
@@ -32,17 +32,13 @@ class DBHelper {
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       return await txn.rawInsert(
-          'INSERT INTO User(username, password, mobileno, emailId) VALUES(' +
+          'INSERT INTO User(username, password, emailId) VALUES(' +
               '\'' +
               user.username +
               '\'' +
               ',' +
               '\'' +
               user.password +
-              '\'' +
-              ',' +
-              '\'' +
-              user.mobileNo +
               '\'' +
               ',' +
               '\'' +
@@ -57,8 +53,7 @@ class DBHelper {
     List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
     List<User> users = new List();
     for (int i = 0; i < list.length; i++) {
-      users.add(new User(list[i]["username"], list[i]["password"],
-          list[i]["mobileno"], list[i]["emailId"]));
+      users.add(new User(list[i]["username"], list[i]["password"], list[i]["emailId"]));
     }
     print(users.length);
     return users;

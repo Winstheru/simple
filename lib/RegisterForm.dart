@@ -16,11 +16,10 @@ class _RegisterFormState extends State<RegisterForm> {
   // String _password = "";
   String _city = "";
 
-  User user = new User("", "", "", "");
+  User user = new User("", "", "");
   String username;
   String password;
   String emailId;
-  String mobileNo;
 
   bool hide = true;
   Icon icon1 = Icon(
@@ -45,7 +44,7 @@ class _RegisterFormState extends State<RegisterForm> {
       if (_form.validate()) {
         _form.save();
 
-        var user = User(username, password, mobileNo, emailId);
+        var user = User(username, password, emailId);
         var dbHelper = DBHelper();
         dbHelper.saveUser(user);
         Flushbar(
@@ -118,26 +117,9 @@ class _RegisterFormState extends State<RegisterForm> {
                       SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              FontAwesomeIcons.mobileAlt,
-                              color: Colors.green,
-                            ),
-                            labelText: "Mobile Number",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                        validator: (value) =>
-                            value.length == 0 ? "Enter Mobile Number" : null,
-                        onSaved: (value) => this.mobileNo = value,
-                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
                       // TextFormField(
                       //   decoration: InputDecoration(
                       //       prefixIcon: Icon(
