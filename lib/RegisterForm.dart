@@ -1,8 +1,8 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:simple/Employee.dart';
-import 'package:simple/database/dbhelper.dart';
+import './User.dart';
+import './database/dbhelper.dart';
 
 import 'ContainerWH.dart';
 
@@ -12,13 +12,13 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  String _username = "";
-  String _password = "";
+  // String _username = "";
+  // String _password = "";
   String _kota = "";
 
-  Employee employee = new Employee("", "", "", "");
-  String firstname;
-  String lastname;
+  User user = new User("", "", "", "");
+  String username;
+  String password;
   String emailId;
   String mobileNo;
 
@@ -32,22 +32,21 @@ class _RegisterFormState extends State<RegisterForm> {
     color: Colors.grey,
   );
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
 
   final List<String> choices = ["Medan", "Jakarta", "Bandung"];
 
   @override
   Widget build(BuildContext context) {
-    var form = formKey.currentState;
+    final _form = _formKey.currentState;
     _onRegisterPressed() {
-      form.validate();
-      if (form.validate()) {
-        form.save();
+      if (_form.validate()) {
+        _form.save();
 
-        var employee = Employee(firstname, lastname, mobileNo, emailId);
+        var user = User(username, password, mobileNo, emailId);
         var dbHelper = DBHelper();
-        dbHelper.saveEmployee(employee);
+        dbHelper.saveUser(user);
         Flushbar(
           icon: Icon(
             Icons.info_outline,
@@ -60,16 +59,16 @@ class _RegisterFormState extends State<RegisterForm> {
           backgroundColor: Colors.green,
           duration: Duration(seconds: 3),
         )..show(context);
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.popAndPushNamed(context, 'login');
-        });
+        // Future.delayed(Duration(seconds: 2), () {
+        //   Navigator.pushNamed(context, 'login');
+        // });
       } else {
-        print("belum memasukkan username atau password");
+        print("data belum terisi");
       }
     }
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("REGISTER"),
       ),
@@ -81,7 +80,7 @@ class _RegisterFormState extends State<RegisterForm> {
             shrinkWrap: true,
             children: <Widget>[
               Form(
-                  key: formKey,
+                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       TextFormField(
@@ -90,13 +89,13 @@ class _RegisterFormState extends State<RegisterForm> {
                               Icons.person,
                               color: Colors.green,
                             ),
-                            labelText: "First Name",
+                            labelText: "Username",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
                         validator: (value) =>
-                            value.length == 0 ? "Enter First Name" : null,
-                        onSaved: (value) => this.firstname = value,
+                            value.length == 0 ? "Enter Username" : null,
+                        onSaved: (value) => this.username = value,
                       ),
                       SizedBox(
                         height: 20,
@@ -107,13 +106,13 @@ class _RegisterFormState extends State<RegisterForm> {
                               Icons.person_outline,
                               color: Colors.green,
                             ),
-                            labelText: "Last Name",
+                            labelText: "Password",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
                         validator: (value) =>
-                            value.length == 0 ? "Enter Last Name" : null,
-                        onSaved: (value) => this.lastname = value,
+                            value.length == 0 ? "Enter Password" : null,
+                        onSaved: (value) => this.password = value,
                       ),
                       SizedBox(
                         height: 20,

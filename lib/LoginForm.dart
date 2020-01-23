@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple/ContainerWH.dart';
 
+import 'database/dbhelper.dart';
+
 bool hide = true;
 Icon _icon = Icon(
   //kalau pake underscore sebelum nama_variable berarti itu private variable
@@ -18,30 +20,35 @@ class LoginForm extends StatefulWidget {
   _LoginFormState createState() => _LoginFormState();
 }
 
-String _username = "";
-String _password = "";
-
 class _LoginFormState extends State<LoginForm> {
-  final formKey = GlobalKey<FormState>(); //utk akses Form_State
-  final mainKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>(); //utk akses Form_State
+  final _mainKey = GlobalKey<ScaffoldState>();
+  String _username = "";
+  String _password = "";
 
-  @override
   @override
   Widget build(BuildContext context) {
-    var form = formKey.currentState;
+    var dbHelper = DBHelper();
+
+    final _form = _formKey.currentState;
+
     _onLoginButtonPressed() {
-      form.validate();
-      if (form.validate()) {
-        form.save();
-        Navigator.pushReplacementNamed(
-            context, 'home'); //navigasi dgn menggunakan route
+      if (_form.validate()) {
+        _form.save();
+        // dbHelper.goLogin(_username, _password);
+        dbHelper.goLogin(_username, _password).then((value) {
+          if (value.toString() != "Failed to Login") {
+            Navigator.pushReplacementNamed(
+                context, 'home'); //navigasi dgn menggunakan route.
+          }
+        });
       } else {
         print("belum memasukkan username atau password");
       }
     }
 
     return Scaffold(
-      key: mainKey,
+      key: _mainKey,
       body: ContainerWH(Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -49,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
             shrinkWrap: true,
             children: <Widget>[
               Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -100,6 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                                 if (value.isEmpty) {
                                   return "Silahkan masukkan Username";
                                 }
+                                return null;
                               },
                               onSaved: (value) => _username = value,
                             ),
@@ -162,6 +170,7 @@ class _LoginFormState extends State<LoginForm> {
                                 if (value.isEmpty) {
                                   return "Silahkan masukkan Password";
                                 }
+                                return null;
                               },
                               onSaved: (value) => _password = value,
                             ),

@@ -4,13 +4,13 @@ import 'package:path/path.dart';
 import 'dart:io' as io;
 import 'dart:async';
 
-import '../Employee.dart';
+import '../User.dart';
 
 class DBHelper {
   static Database _db;
 
   Future<Database> get db async {
-    if(_db != null) return _db;
+    if (_db != null) return _db;
     _db = await initdb();
     return _db;
   }
@@ -23,40 +23,63 @@ class DBHelper {
   }
 
   void _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE Employee(id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, mobileno TEXT, emailId TEXT)");
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS User(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mobileno TEXT, emailId TEXT)");
     print("Created tables");
   }
 
-  void saveEmployee(Employee employee) async {
+  void saveUser(User user) async {
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       return await txn.rawInsert(
-        'INSERT INTO EMPLOYEE(firstname, lastname, mobileno, emailId) VALUES(' + 
-        '\'' + employee.firstname +
-        '\'' +
-        ',' +
-        '\'' +
-        employee.lastname +
-        '\'' +
-        ',' +
-        '\'' + employee.mobileNo +
-        '\'' +
-        ',' +
-        '\'' +
-        employee.emailId +
-        '\'' +
-        ')');
+          'INSERT INTO User(username, password, mobileno, emailId) VALUES(' +
+              '\'' +
+              user.username +
+              '\'' +
+              ',' +
+              '\'' +
+              user.password +
+              '\'' +
+              ',' +
+              '\'' +
+              user.mobileNo +
+              '\'' +
+              ',' +
+              '\'' +
+              user.emailId +
+              '\'' +
+              ')');
     });
   }
 
-  Future<List<Employee>> getEmployees() async {
+  Future<List<User>> getUser() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Employee');
-    List<Employee> employees = new List();
-    for(int i = 0; i < list.length; i++){
-      employees.add(new Employee(list[i]["firstname"], list[i]["lastname"], list[i]["mobileno"], list[i]["emailId"]));
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
+    List<User> users = new List();
+    for (int i = 0; i < list.length; i++) {
+      users.add(new User(list[i]["username"], list[i]["password"],
+          list[i]["mobileno"], list[i]["emailId"]));
     }
-    print(employees.length);
-    return employees;
+    print(users.length);
+    return users;
+  }
+
+
+  // =======
+  // Future<int> saveUser(User user) async {
+  //   var dbClient = await con.db;
+  //   int res = await dbClient.insert("User", user.toMap());
+  //   return res;
+  // }
+
+  Future<User> goLogin(String user, String password) async {
+    var dbClient = await db;
+    var res = await dbClient.rawQuery("SELECT * FROM User WHERE username = '$user' and password = '$password'");
+    
+    if (res.length > 0) {
+      return new User.fromMap(res.first);
+    }else{
+      throw Exception('Failed to Login');
+    }
   }
 }
