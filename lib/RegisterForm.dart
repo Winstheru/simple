@@ -12,14 +12,12 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  // String _username = "";
-  // String _password = "";
   String _city = "";
 
   User user = new User("", "", "");
   String username;
   String password;
-  String emailId;
+  String city;
 
   bool hide = true;
   Icon icon1 = Icon(
@@ -44,7 +42,7 @@ class _RegisterFormState extends State<RegisterForm> {
       if (_form.validate()) {
         _form.save();
 
-        var user = User(username, password, emailId);
+        var user = User(username, password, city);
         var dbHelper = DBHelper();
         dbHelper.saveUser(user);
         Flushbar(
@@ -60,7 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
           duration: Duration(seconds: 3),
         )..show(context);
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.pushNamed(context, 'login');
+          Navigator.pushReplacementNamed(context, 'login');
         });
       } else {
         print("data belum terisi semua");
@@ -100,70 +98,33 @@ class _RegisterFormState extends State<RegisterForm> {
                       SizedBox(
                         height: 20,
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       TextFormField(
+                        obscureText:
+                            hide, //obscureText jika bernilai TRUE akan menutup password yang diketik
                         decoration: InputDecoration(
                             prefixIcon: Icon(
-                              Icons.person_outline,
+                              Icons.lock,
                               color: Colors.green,
                             ),
+                            suffixIcon: IconButton(
+                              icon: hide ? icon1 : icon2,
+                              onPressed: () {
+                                setState(() {
+                                  hide =
+                                      !hide; //jika icon mata ditekan maka show text password
+                                });
+                              },
+                            ),
                             labelText: "Password",
+                            hintText: "Masukkan password",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                        validator: (value) =>
-                            value.length == 0 ? "Enter Password" : null,
+                                borderRadius: BorderRadius.circular(10))),
                         onSaved: (value) => this.password = value,
+                        validator: (value) => value.length == 0 ? "Masukkan password terlebih dahulu" : null,
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      // TextFormField(
-                      //   decoration: InputDecoration(
-                      //       prefixIcon: Icon(
-                      //         Icons.lock,
-                      //         color: Colors.green,
-                      //       ),
-                      //       labelText: "Username",
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //       )),
-                      //   validator: (value) {
-                      //     if (value.isEmpty) {
-                      //       return "Masukkan username";
-                      //     }
-                      //   },
-                      //   onSaved: (value) => _username = value,
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      // TextFormField(
-                      //   obscureText:
-                      //       hide, //obscureText jika bernilai TRUE akan menutup password yang diketik
-                      //   decoration: InputDecoration(
-                      //       suffixIcon: IconButton(
-                      //         icon: hide ? icon1 : icon2,
-                      //         onPressed: () {
-                      //           setState(() {
-                      //             hide =
-                      //                 !hide; //jika icon mata ditekan maka show text password
-                      //           });
-                      //         },
-                      //       ),
-                      //       labelText: "Password",
-                      //       hintText: "Masukkan password",
-                      //       border: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(10))),
-                      //   onSaved: (value) => _password = value,
-                      //   validator: (value) {
-                      //     if (value.isEmpty) {
-                      //       return "Masukkan password terlebih dahulu";
-                      //     }
-                      //   },
-                      // ),
                       Container(
                           margin: EdgeInsets.only(top: 16),
                           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -174,7 +135,8 @@ class _RegisterFormState extends State<RegisterForm> {
                             child: DropdownButton(
                               style:
                                   TextStyle(fontSize: 18, color: Colors.blue),
-                              items: kota.map((value) => DropdownMenuItem(
+                              items: kota
+                                  .map((value) => DropdownMenuItem(
                                         child: Text(value),
                                         value: value,
                                       ))
@@ -185,7 +147,9 @@ class _RegisterFormState extends State<RegisterForm> {
                                   _choosenCity = value;
                                 });
                               },
-                              value: _city == null ? null : this.emailId = _choosenCity,
+                              value: _city == null
+                                  ? null
+                                  : this.city = _choosenCity,
                             ),
                           )),
                       Padding(

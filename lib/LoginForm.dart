@@ -107,7 +107,6 @@ class _LoginFormState extends State<LoginForm> {
                                 if (value.isEmpty) {
                                   return "Silahkan masukkan Username";
                                 }
-                                return null;
                               },
                               onSaved: (value) => _username = value,
                             ),
@@ -170,7 +169,6 @@ class _LoginFormState extends State<LoginForm> {
                                 if (value.isEmpty) {
                                   return "Silahkan masukkan Password";
                                 }
-                                return null;
                               },
                               onSaved: (value) => _password = value,
                             ),
@@ -178,29 +176,6 @@ class _LoginFormState extends State<LoginForm> {
                         ],
                       ),
                     ),
-                    // TextFormField(
-                    //   obscureText: hide,
-                    //   keyboardType: TextInputType.text,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Password',
-                    //     border: OutlineInputBorder(),
-                    //     suffixIcon: IconButton(
-                    //       icon: hide ? _icon : _icon2,
-                    //       onPressed: () {
-                    //         print("tekan");
-                    //         setState(() {
-                    //           hide = !hide;
-                    //         });
-                    //       },
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value.isEmpty) {
-                    //       return 'Silahkan masukkan Password';
-                    //     }
-                    //   },
-                    //   onSaved: (value) => _password = value,
-                    // ),
                     SizedBox(
                       height: 20,
                     ),

@@ -1,12 +1,12 @@
 class User {
   String username;
   String password;
-  String emailId;
-  User(this.username, this.password, this.emailId);
+  String city;
+  User(this.username, this.password, this.city);
 
   User.fromMap(Map map){
     username = map[username];
     password = map[password];
-    emailId = map[emailId];
+    city = map[city];
   }
 }
