@@ -57,25 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          // child: FutureBuilder(
-          //     future: DefaultAssetBundle.of(context)
-          //         .loadString("assets/simple.json"),
-          //     builder: (context, snapshot) {
-          //       var user = json.decode(snapshot.data.toString());
-          //       return GridView.builder(
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return SingleMenuGrid(
-          //             namaItem: user[index]['name'],
-          //             harga: user[index]['city'],
-          //             warna: Colors.green[700],
-          //             umur: user[index]['age'],
-          //           );
-          //         },
-          //         itemCount: user.length,
-          //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //             crossAxisCount: 3),
-          //       );
-          //     }),
         ));
   }
 }
