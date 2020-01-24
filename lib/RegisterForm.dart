@@ -123,7 +123,9 @@ class _RegisterFormState extends State<RegisterForm> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onSaved: (value) => this.password = value,
-                        validator: (value) => value.length == 0 ? "Masukkan password terlebih dahulu" : null,
+                        validator: (value) => value.length == 0
+                            ? "Masukkan password terlebih dahulu"
+                            : null,
                       ),
                       Container(
                           margin: EdgeInsets.only(top: 16),
@@ -165,6 +167,22 @@ class _RegisterFormState extends State<RegisterForm> {
                           onPressed: _onRegisterPressed,
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("atau", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                          onTap: registerDatabase,
+                          child: Text(
+                            "Register User dengan Database",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ))
                     ],
                   ))
             ],
@@ -172,5 +190,9 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ),
     );
+  }
+
+  registerDatabase() {
+    return Navigator.pushNamed(context, 'registerdatabase');
   }
 }

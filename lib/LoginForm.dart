@@ -35,7 +35,6 @@ class _LoginFormState extends State<LoginForm> {
     _onLoginButtonPressed() {
       if (_form.validate()) {
         _form.save();
-        // dbHelper.goLogin(_username, _password);
         dbHelper.goLogin(_username, _password).then((value) {
           if (value.toString() != "Failed to Login") {
             Navigator.pushReplacementNamed(
@@ -207,6 +206,18 @@ class _LoginFormState extends State<LoginForm> {
                               fontWeight: FontWeight.bold,
                               fontSize: 16),
                         )),
+
+                        SizedBox(height: 40,),
+
+                    GestureDetector(
+                        onTap: loginDatabase,
+                        child: Text(
+                          "Login dengan Database",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ))
                   ],
                 ),
               ),
@@ -219,5 +230,9 @@ class _LoginFormState extends State<LoginForm> {
 
   register() {
     return Navigator.pushNamed(context, 'register');
+  }
+
+  loginDatabase() {
+    return Navigator.pushNamed(context, 'logindatabase');
   }
 }
