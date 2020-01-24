@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +14,7 @@ class _RegisterDatabaseState extends State<RegisterDatabase> {
   TextEditingController pass = new TextEditingController();
 
   String _city = "";
+  String city;
   String _choosenCity;
   final List<String> kota = ["Medan", "Jakarta", "Bandung"];
 
@@ -20,8 +22,42 @@ class _RegisterDatabaseState extends State<RegisterDatabase> {
     var url = "http://192.168.43.56/user/add.php";
     http.post(url, body: {
       "username": user.text,
-      "password": pass.text
+      "password": pass.text,
+      "city": _choosenCity
+    }).then((response){
+      if(response.statusCode == 200){
+        Flushbar(
+          icon: Icon(
+            Icons.info_outline,
+            color: Colors.blue[900],
+          ),
+          messageText: Text(
+            "User berhasil di register",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        )..show(context);
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.pushReplacementNamed(context, 'login');
+        });
+      }else{
+        Flushbar(
+          icon: Icon(
+            Icons.info_outline,
+            color: Colors.blue[900],
+          ),
+          messageText: Text(
+            "${response.body}",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }
+      print("${response.statusCode}");
     });
+    
   }
 
   @override
@@ -69,7 +105,7 @@ class _RegisterDatabaseState extends State<RegisterDatabase> {
                               },
                               value: _city == null
                                   ? null
-                                  : this.city = _choosenCity,
+                                  :  city= _choosenCity,
                             ),
                           )
             ),

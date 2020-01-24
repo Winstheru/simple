@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,9 +27,18 @@ class _LoginDatabaseState extends State<LoginDatabase> {
     var datauser = json.decode(response.body);
 
     if (datauser.length == 0) {
-      setState(() {
-        msg = "Login Fail";
-      });
+      Flushbar(
+          icon: Icon(
+            Icons.info_outline,
+            color: Colors.blue[900],
+          ),
+          messageText: Text(
+            "Gagal melakukan Login",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        )..show(context);
     } else {
       Navigator.pushReplacementNamed(context, 'home');
     }
@@ -61,10 +71,6 @@ class _LoginDatabaseState extends State<LoginDatabase> {
               onPressed: () {
                 _login();
               },
-            ),
-            Text(
-              msg,
-              style: TextStyle(fontSize: 20.0, color: Colors.red),
             ),
           ],
         ),

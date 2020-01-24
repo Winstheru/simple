@@ -170,7 +170,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("atau", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),),
+                      Text("atau", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 18),),
                       SizedBox(
                         height: 20,
                       ),
