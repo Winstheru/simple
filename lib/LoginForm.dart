@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple/ContainerWH.dart';
@@ -36,7 +37,25 @@ class _LoginFormState extends State<LoginForm> {
       if (_form.validate()) {
         _form.save();
         dbHelper.goLogin(_username, _password).then((value) {
-          if (value.toString() != "Failed to Login") {
+          // if (value.toString() != "Failed to Login") {
+          //   Navigator.pushReplacementNamed(
+          //       context, 'home'); //navigasi dgn menggunakan route.
+          // }
+          if (value.username == "" && value.password == "") {
+            Flushbar(
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.blue[900],
+              ),
+              messageText: Text(
+                "Username atau Password salah",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            )..show(context);
+          } else {
             Navigator.pushReplacementNamed(
                 context, 'home'); //navigasi dgn menggunakan route.
           }
@@ -207,7 +226,9 @@ class _LoginFormState extends State<LoginForm> {
                               fontSize: 16),
                         )),
 
-                        SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
 
                     GestureDetector(
                         onTap: loginDatabase,

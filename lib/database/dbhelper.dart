@@ -66,7 +66,8 @@ class DBHelper {
     if (res.length > 0) {
       return new User.fromMap(res.first);
     }else{
-      throw Exception('Failed to Login');
+      // throw Exception('Failed to Login');
+      return new User("", "", "");
     }
   }
 }

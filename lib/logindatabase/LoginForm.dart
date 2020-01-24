@@ -28,17 +28,17 @@ class _LoginDatabaseState extends State<LoginDatabase> {
 
     if (datauser.length == 0) {
       Flushbar(
-          icon: Icon(
-            Icons.info_outline,
-            color: Colors.blue[900],
-          ),
-          messageText: Text(
-            "Gagal melakukan Login",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
-        )..show(context);
+        icon: Icon(
+          Icons.info_outline,
+          color: Colors.blue[900],
+        ),
+        messageText: Text(
+          "Username atau Password salah",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 3),
+      )..show(context);
     } else {
       Navigator.pushReplacementNamed(context, 'home');
     }
@@ -49,7 +49,9 @@ class _LoginDatabaseState extends State<LoginDatabase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login dengan Database"),),
+      appBar: AppBar(
+        title: Text("Login dengan Database"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
